@@ -65,4 +65,23 @@ def print_categories_ratio(data):
     return
 
 
+def visualize_outliers(data, columns, quantile_cutoffs=0.01):
+    """Display column plots before and after removeing outliers."""
+    columns = list(columns.split())
+    
+    num_cols = len(columns)
+    if type(quantile_cutoffs) == float:
+        quantile_cutoffs = [quantile_cutoffs] * num_cols
+        
+    assert len(quantile_cutoffs) == num_cols
+    
+    fig, axes = plt.subplots(nrows=num_cols, ncols=2, squeeze=False)
+    
+    for i, column in enumerate(columns):
+        q_high = data[column].quantile(1 - quantile_cutoffs[i])
+        q_low = data[column].quantile(quantile_cutoffs[i])
 
+        data[column].plot(ax=axes[i, 0]);
+
+        filt = (data[column] < q_high) & (data[column] > q_low)
+        data.loc[filt, column].plot(ax=axes[i, 1]);
