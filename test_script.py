@@ -55,6 +55,9 @@ def run_models(names, data, target):
 if __name__ == "__main__":
     set_config(transform_output='pandas')
 
+    if len(sys.argv) != 2:
+        print('Usage: python test_script.py path_to_data')
+        exit()
 
     test_path = sys.argv[1]
 
