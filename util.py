@@ -31,7 +31,6 @@ def visualize_distributions(data, label_size=4):
     fig = data.hist(xlabelsize=label_size, ylabelsize=label_size)
     for x in fig.ravel():
         x.title.set_size(label_size)
-    # plt.savefig("./saves/plots/dists.png", dpi=300)
 
 
 def print_na_ratio(data):
@@ -83,8 +82,6 @@ def visualize_outliers(data, columns, quantile_cutoffs=0.01):
         filt = (data[column] < q_high) & (data[column] > q_low)
         data.loc[filt, column].plot(ax=axes[i, 1])
 
-    # plt.savefig("./saves/plots/outliers-" + '&'.join(columns), dpi=300)
-
 
 def visualize_rfe_scores(rfecv):
     """Visulaize the mean accuracy scores over the number of features."""
@@ -97,4 +94,3 @@ def visualize_rfe_scores(rfecv):
         rfecv.cv_results_["mean_test_score"],
     )
     plt.title("Recursive Feature Elimination")
-    # plt.savefig("./saves/plots/rfe.png", dpi=300)
