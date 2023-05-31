@@ -28,22 +28,6 @@ if __name__ == "__main__":
 
     test_path = sys.argv[1]
 
-    final_columns = [
-        'Unnamed: 0',
-        'id',
-        'owner_1_score',
-        'years_in_business',
-        'fsr',
-        'INPUT_VALUE_ID_FOR_num_negative_days',
-        'INPUT_VALUE_ID_FOR_num_deposits',
-        'INPUT_VALUE_ID_FOR_monthly_gross',
-        'INPUT_VALUE_ID_FOR_average_ledger',
-        'INPUT_VALUE_ID_FOR_fc_margin',
-        'INPUT_VALUE_ID_FOR_avg_net_deposits',
-        'INPUT_VALUE_owner_4',
-        'deal_application_thread_id'
-    ]
-
     with open("./saves/objects/ord_columns.p", "rb") as f:
         ord_columns = pickle.load(f)
 
@@ -94,6 +78,9 @@ if __name__ == "__main__":
 
     index = data.columns.intersection(num_columns)
     data[index] = num_pipeline.transform(data[index])
+
+    with open("./saves/objects/final_columns.p", "rb") as f:
+        final_columns = pickle.load(f)
 
     data = data[data.columns.intersection(final_columns)]
 
