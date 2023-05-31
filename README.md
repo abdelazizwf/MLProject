@@ -9,5 +9,10 @@
     pip install -r requirements.txt
     ```
 
+3. Run the test script using the following command (replace `testing_data_path` with the path of your testing csv file):
+    ```bash
+    python test_script.py testing_data_path
+    ```
+
 ## Links
-[Project Drive](https://drive.google.com/drive/folders/17hrEio9_ju0YMBeOqb-flFeei82AgMDZ)
+[Project Description and Data](https://drive.google.com/drive/folders/17hrEio9_ju0YMBeOqb-flFeei82AgMDZ)
