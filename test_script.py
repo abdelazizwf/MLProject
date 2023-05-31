@@ -4,28 +4,11 @@ import pickle
 import pandas as pd
 
 from sklearn import set_config
-from sklearn.metrics import (
-    accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
-)
+
+from util import print_metrics
 
 
-def print_metrics(y_test, y_pred):
-    # Calculate evaluation metrics
-    accuracy = accuracy_score(y_test, y_pred)
-    precision = precision_score(y_test, y_pred, average='macro')
-    recall = recall_score(y_test, y_pred, average='macro')
-    f1 = f1_score(y_test, y_pred, average='macro')
-    conf_matrix = confusion_matrix(y_test, y_pred)
-
-    # Print the evaluation metrics and confusion matrix
-    print(f"Accuracy: {round(accuracy * 100, 2)} %")
-    print(f"Precision: {round(precision * 100, 2)} %")
-    print(f"Recall: {round(recall * 100, 2)} %")
-    print(f"F1 score: {round(f1 * 100, 2)} %")
-    print(f"Confusion matrix:\n{conf_matrix}\n")
-
-
-def run_models(names, data, target):
+def run_saved_models(names, data, target):
     path = "./saves/objects/"
     for name in names:
         with open(path + name + ".p", "rb") as f:
@@ -119,4 +102,4 @@ if __name__ == "__main__":
         "gradientboost_model", "random_forest_model"
     ]
 
-    run_models(models, data, target)
+    run_saved_models(models, data, target)

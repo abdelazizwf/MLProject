@@ -1,6 +1,9 @@
 from collections import Counter
 
 import matplotlib.pyplot as plt
+from sklearn.metrics import (
+    accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
+)
 
 
 def drop_empty_features(data, cutoff=0.5):
@@ -94,3 +97,19 @@ def visualize_rfe_scores(rfecv):
         rfecv.cv_results_["mean_test_score"],
     )
     plt.title("Recursive Feature Elimination")
+
+
+def print_metrics(y_test, y_pred):
+    # Calculate evaluation metrics
+    accuracy = accuracy_score(y_test, y_pred)
+    precision = precision_score(y_test, y_pred, average='macro')
+    recall = recall_score(y_test, y_pred, average='macro')
+    f1 = f1_score(y_test, y_pred, average='macro')
+    conf_matrix = confusion_matrix(y_test, y_pred)
+
+    # Print the evaluation metrics and confusion matrix
+    print(f"Accuracy: {round(accuracy * 100, 2)} %")
+    print(f"Precision: {round(precision * 100, 2)} %")
+    print(f"Recall: {round(recall * 100, 2)} %")
+    print(f"F1 score: {round(f1 * 100, 2)} %")
+    print(f"Confusion matrix:\n{conf_matrix}\n")
