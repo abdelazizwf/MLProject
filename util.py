@@ -61,7 +61,7 @@ def print_categories_ratio(data):
 
 
 def visualize_outliers(data, columns, quantile_cutoffs=0.01):
-    """Display column plots before and after removeing outliers."""
+    """Display column plots before and after removing outliers."""
     if type(columns) == str:
         columns = list(columns.split())
 
@@ -84,7 +84,7 @@ def visualize_outliers(data, columns, quantile_cutoffs=0.01):
 
 
 def visualize_rfe_scores(rfecv):
-    """Visulaize the mean accuracy scores over the number of features."""
+    """Visualize the mean accuracy scores over the number of features."""
     n_scores = len(rfecv.cv_results_["mean_test_score"])
     plt.figure()
     plt.xlabel("Number of features selected")
