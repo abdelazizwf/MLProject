@@ -2,23 +2,11 @@ import sys
 import pickle
 
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
 
 from sklearn import set_config
-from sklearn.experimental import enable_iterative_imputer
-from sklearn.preprocessing import OrdinalEncoder, OneHotEncoder, RobustScaler
-from sklearn.impute import KNNImputer, SimpleImputer
-from sklearn.pipeline import Pipeline
-from sklearn.ensemble import (
-    GradientBoostingClassifier, RandomForestClassifier,
-    BaggingClassifier, AdaBoostClassifier,
+from sklearn.metrics import (
+    accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
 )
-from sklearn.linear_model import LogisticRegression
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.feature_selection import RFECV
-from sklearn.model_selection import StratifiedKFold, train_test_split, GridSearchCV
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
 
 
 def print_metrics(y_test, y_pred):
@@ -36,8 +24,6 @@ def print_metrics(y_test, y_pred):
     print(f"F1 score: {round(f1 * 100, 2)} %")
     print(f"Confusion matrix:\n{conf_matrix}\n")
 
-    return
-
 
 def run_models(names, data, target):
     path = "./saves/objects/"
@@ -48,8 +34,6 @@ def run_models(names, data, target):
         predictions = model.predict(data)
         print(name)
         print_metrics(target, predictions)
-
-    return
 
 
 if __name__ == "__main__":
@@ -77,7 +61,6 @@ if __name__ == "__main__":
         'deal_application_thread_id'
     ]
 
-
     with open("./saves/objects/ord_columns.p", "rb") as f:
         ord_columns = pickle.load(f)
 
@@ -92,18 +75,16 @@ if __name__ == "__main__":
 
     chosen_columns = ord_columns + bin_columns + oh_columns + num_columns
 
-
     data = pd.read_csv(test_path)
 
     target = data["completion_status"]
 
     data = data[data.columns.intersection(chosen_columns)]
 
-
     # Make all text lowercase
     filt = (data.dtypes == "object") | (data.dtypes == "bool")
-    data.loc[:, filt] = data.loc[:, filt].applymap(str.lower, na_action='ignore')
-
+    data.loc[:, filt] = data.loc[:, filt].applymap(
+        str.lower, na_action='ignore')
 
     with open("./saves/objects/ord_pipeline.p", "rb") as f:
         ord_pipeline = pickle.load(f)
@@ -111,13 +92,11 @@ if __name__ == "__main__":
     index = data.columns.intersection(ord_columns)
     data[index] = ord_pipeline.transform(data[index])
 
-
     with open("./saves/objects/bin_pipeline.p", "rb") as f:
         bin_pipeline = pickle.load(f)
 
     index = data.columns.intersection(bin_columns)
     data[index] = bin_pipeline.transform(data[index])
-
 
     with open("./saves/objects/oh_pipeline.p", "rb") as f:
         oh_pipeline = pickle.load(f)
@@ -127,18 +106,17 @@ if __name__ == "__main__":
     data.drop(columns=oh_columns, inplace=True)
     data = pd.concat([data, oh_data], axis=1)
 
-
     with open("./saves/objects/num_pipeline.p", "rb") as f:
         num_pipeline = pickle.load(f)
 
     index = data.columns.intersection(num_columns)
     data[index] = num_pipeline.transform(data[index])
 
-
     data = data[data.columns.intersection(final_columns)]
 
     models = [
-        "adaboost_model", "bagging_model", "gradientboost_model", "random_forest_model"
+        "adaboost_model", "bagging_model",
+        "gradientboost_model", "random_forest_model"
     ]
 
     run_models(models, data, target)
