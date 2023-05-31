@@ -1,4 +1,4 @@
 data/
 _*
-*.ipynb
+.ipynb*
 saves/plots/
