@@ -1,6 +1,6 @@
-# MLProject
+# Loan Completion Prediction
 
-A python project for a university Machine Learning course.
+A machine learning course project to predict the completion status of loans based on given data.
 
 ## Setup
 
